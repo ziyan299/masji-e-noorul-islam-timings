@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sMasjid e Noorul Islam - Namaz Timing</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: yellow;
+        color: green;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    #allah {
+        font-size: 36px;
+        margin-top: 20px;
+    }
+    #masjidName {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .timings {
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid green;
+        border-radius: 5px;
+        width: calc(100% - 20px);
+        max-width: 300px;
+        text-align: left;
+    }
+    h2 {
+        margin-bottom: 10px;
+    }
+    .photo {
+        margin-top: 20px;
+        max-width: 100%;
+        height: auto;
+    }
+    .password-form {
+        margin-top: 20px;
+    }
+    .password-form input {
+        padding: 8px;
+        margin-right: 5px;
+    }
+</style>
+</head>
+<body>
+<div id="allah">
+    الله
+</div>
+<div id="masjidName">
+    Masjid e Noorul Islam
+</div>
+
+<div class="container">
+    <div class="timings" id="prayerTimings">
+        <h2>Prayer Timings:</h2>
+        <p id="prayerTimingsList">
+            Fajr: <span id="fajrTime">5:00 AM</span><br>
+            Dhuhr: <span id="dhuhrTime">1:00 PM</span><br>
+            Asr: <span id="asrTime">4:30 PM</span><br>
+            Maghrib: <span id="maghribTime">7:00 PM</span><br>
+            Isha: <span id="ishaTime">9:30 PM</span>
+        </p>
+    </div>
+    <div class="timings" id="jamathTimings">
+        <h2>Jamath Timings:</h2>
+        <p id="jamathTimingsList">
+            Fajr: <span id="jamathFajrTime">5:15 AM</span><br>
+            Dhuhr: <span id="jamathDhuhrTime">1:30 PM</span><br>
+            Asr: <span id="jamathAsrTime">4:45 PM</span><br>
+            Maghrib: <span id="jamathMaghribTime">7:15 PM</span><br>
+            Isha: <span id="jamathIshaTime">9:45 PM</span>
+        </p>
+    </div>
+    <div class="timings">
+        <h2>Jumma Namaz Timing:</h2>
+        <p id="jummaNamazTiming">Jumma: 1:15 PM</p>
+    </div>
+    <div class="timings">
+        <h2>Eid Namaz Timing:</h2>
+        <p id="eidNamazTiming">Eid: 9:00 AM</p>
+    </div>
+</div>
+
+<div class="photo">
+    <img src="C:\Users\UESR\Desktop\New foldermasjid.jpg" alt="Masjid Photo" width="100">
+</div>
+
+<div class="password-form">
+    <form id="passwordForm" onsubmit="return authenticate(event)">
+        <label for="password">Enter Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Submit</button>
+    </form>
+    <p>Select which timings to edit:</p>
+    <select id="editSelect">
+        <option value="prayer">Prayer Timings</option>
+        <option value="jamath">Jamath Timings</option>
+        <option value="jumma">Jumma Namaz Timing</option>
+        <option value="eid">Eid Namaz Timing</option>
+    </select>
+</div>
+
+<script>
+    let prayerTimings = {
+        fajr: "5:00 AM",
+        dhuhr: "1:00 PM",
+        asr: "4:30 PM",
+        maghrib: "7:00 PM",
+        isha: "9:30 PM"
+    };
+
+    let jamathTimings = {
+        fajr: "5:15 AM",
+        dhuhr: "1:30 PM",
+        asr: "4:45 PM",
+        maghrib: "7:15 PM",
+        isha: "9:45 PM"
+    };
+
+    function updatePrayerTimings() {
+        document.getElementById("fajrTime").textContent = prayerTimings.fajr;
+        document.getElementById("dhuhrTime").textContent = prayerTimings.dhuhr;
+        document.getElementById("asrTime").textContent = prayerTimings.asr;
+        document.getElementById("maghribTime").textContent = prayerTimings.maghrib;
+        document.getElementById("ishaTime").textContent = prayerTimings.isha;
+    }
+
+    function updateJamathTimings() {
+        document.getElementById("jamathFajrTime").textContent = jamathTimings.fajr;
+        document.getElementById("jamathDhuhrTime").textContent = jamathTimings.dhuhr;
+        document.getElementById("jamathAsrTime").textContent = jamathTimings.asr;
+        document.getElementById("jamathMaghribTime").textContent = jamathTimings.maghrib;
+        document.getElementById("jamathIshaTime").textContent = jamathTimings.isha;
+    }
+
+    function authenticate(event) {
+        event.preventDefault();
+        const password = document.getElementById("password").value;
+        const selectValue = document.getElementById("editSelect").value;
+        
+        if (password === "0508576487") {
+            switch (selectValue) {
+                case "prayer":
+                    editPrayerTimings();
+                    break;
+                case "jamath":
+                    editJamathTimings();
+                    break;
+                case "jumma":
+                    editJummaNamazTiming();
+                    break;
+                case "eid":
+                    editEidNamazTiming();
+                    break;
+                default:
+                    alert("Please select which timings to edit.");
+            }
+        } else {
+            alert("Incorrect password. Editing not allowed.");
+        }
+    }
+
+    function editPrayerTimings() {
+        let newFajr = prompt("Enter new Fajr timing:");
+        let newDhuhr = prompt("Enter new Dhuhr timing:");
+        let newAsr = prompt("Enter new Asr timing:");
+        let newMaghrib = prompt("Enter new Maghrib timing:");
+        let newIsha = prompt("Enter new Isha timing:");
+
+        prayerTimings.fajr = newFajr || prayerTimings.fajr;
+        prayerTimings.dhuhr = newDhuhr || prayerTimings.dhuhr;
+        prayerTimings.asr = newAsr || prayerTimings.asr;
+        prayerTimings.maghrib = newMaghrib || prayerTimings.maghrib;
+        prayerTimings.isha = newIsha || prayerTimings.isha;
+
+        updatePrayerTimings();
+    }
+
+    function editJamathTimings() {
+        let newFajr = prompt("Enter new Jamath Fajr timing:");
+        let newDhuhr = prompt("Enter new Jamath Dhuhr timing:");
+        let newAsr = prompt("Enter new Jamath Asr timing:");
+        let newMaghrib = prompt("Enter new Jamath Maghrib timing:");
+        let newIsha = prompt("Enter new Jamath Isha timing:");
+
+        jamathTimings.fajr = newFajr || jamathTimings.fajr;
+        jamathTimings.dhuhr = newDhuhr || jamathTimings.dhuhr;
+        jamathTimings.asr = newAsr || jamathTimings.asr;
+        jamathTimings.maghrib = newMaghrib || jamathTimings.maghrib;
+        jamathTimings.isha = newIsha || jamathTimings.isha;
+
+        updateJamathTimings();
+    }
+
+    function editJummaNamazTiming() {
+        let newJumma = prompt("Enter new Jumma Namaz timing:");
+
+        document.getElementById("jummaNamazTiming").textContent = `Jumma: ${newJumma}`;
+    }
+
+    function editEidNamazTiming() {
+        let newEid = prompt("Enter new Eid Namaz timing:");
+
+        document.getElementById("eidNamazTiming").textContent = `Eid: ${newEid}`;
+    }
+</script>
+</body>
+</html>
